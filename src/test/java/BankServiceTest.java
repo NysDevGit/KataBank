@@ -40,4 +40,19 @@ public class BankServiceTest {
         }
     }
 
+    @Test
+    public void should_add_amount_to_current_account_balance(){
+        //Given
+        BankService bankService = new BankService();
+        Account account = new Account(new Balance(100));
+        double amountToWithdraw = 50;
+
+        //When
+        bankService.withdraw(account, amountToWithdraw);
+
+        //Then
+        Assertions.assertEquals(50.0, bankService.getAccountBalance(account));
+
+    }
+
 }

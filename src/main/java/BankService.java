@@ -7,4 +7,7 @@ public class BankService {
     public double getAccountBalance(Account account) {
         return account.getBalance();
     }
+
+    public void withdraw(Account account, double amountToWithdraw) {
+    }
 }
