@@ -5,6 +5,6 @@ public class BankService {
     }
 
     public double getAccountBalance(Account account) {
-        return 0;
+        return account.getBalance();
     }
 }

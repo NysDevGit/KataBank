@@ -1,6 +1,6 @@
 public class Balance {
 
-    public double balance;
+    private double balance;
 
     public Balance(double amount) {
         balance = amount;

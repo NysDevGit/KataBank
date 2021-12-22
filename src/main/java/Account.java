@@ -9,4 +9,8 @@ public class Account {
     public void incrementBalance(double amountToDeposit) {
         balance.add(amountToDeposit);
     }
+
+    public double getBalance() {
+        return balance.getBalance();
+    }
 }
