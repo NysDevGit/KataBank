@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class BankService {
 
     public void deposit(Account account, double amountToDeposit) {
@@ -12,4 +14,7 @@ public class BankService {
         return account.getBalance();
     }
 
+    public List<Deposit> printTransactionsHistory(Account account) {
+        return null;
+    }
 }
