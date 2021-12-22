@@ -15,4 +15,7 @@ public class Balance {
     }
 
 
+    public void subtract(double amountToWithdraw) {
+        balance -= amountToWithdraw;
+    }
 }

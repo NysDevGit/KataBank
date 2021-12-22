@@ -10,7 +10,12 @@ public class Account {
         balance.add(amountToDeposit);
     }
 
+    public void decrementBalance(double amountToWithdraw) {
+        balance.subtract(amountToWithdraw);
+    }
+
     public double getBalance() {
         return balance.getBalance();
     }
+
 }

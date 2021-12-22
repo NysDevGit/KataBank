@@ -4,10 +4,12 @@ public class BankService {
         account.incrementBalance(amountToDeposit);
     }
 
+    public void withdraw(Account account, double amountToWithdraw) {
+        account.decrementBalance(amountToWithdraw);
+    }
+
     public double getAccountBalance(Account account) {
         return account.getBalance();
     }
 
-    public void withdraw(Account account, double amountToWithdraw) {
-    }
 }
