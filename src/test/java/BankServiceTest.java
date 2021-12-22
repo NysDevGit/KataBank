@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 public class BankServiceTest {
 
     @Nested
-    class DepositTest{
+    class DepositTest {
 
         @Test
-        public void should_add_amount_to_current_account_balance(){
+        public void should_add_amount_to_current_account_balance() {
             //Given
             BankService bankService = new BankService();
             Account account = new Account(new Balance(100));
@@ -23,7 +23,7 @@ public class BankServiceTest {
         }
 
         @Test
-        public void should_add_severals_amount_to_current_account_balance(){
+        public void should_add_severals_amount_to_current_account_balance() {
             //Given
             BankService bankService = new BankService();
             Account account = new Account(new Balance(20));
@@ -40,19 +40,40 @@ public class BankServiceTest {
         }
     }
 
-    @Test
-    public void should_add_amount_to_current_account_balance(){
-        //Given
-        BankService bankService = new BankService();
-        Account account = new Account(new Balance(100));
-        double amountToWithdraw = 50;
+    @Nested
+    class WithdrawTest {
+        @Test
+        public void should_subtract_amount_to_current_account_balance() {
+            //Given
+            BankService bankService = new BankService();
+            Account account = new Account(new Balance(100));
+            double amountToWithdraw = 50;
 
-        //When
-        bankService.withdraw(account, amountToWithdraw);
+            //When
+            bankService.withdraw(account, amountToWithdraw);
 
-        //Then
-        Assertions.assertEquals(50.0, bankService.getAccountBalance(account));
+            //Then
+            Assertions.assertEquals(50.0, bankService.getAccountBalance(account));
+        }
 
+        @Test
+        public void should_subtract_severals_amount_to_current_account_balance() {
+            //Given
+            BankService bankService = new BankService();
+            Account account = new Account(new Balance(200));
+            double amountToWithdraw = 50;
+            double secondAmountToWithdraw = 130;
+
+            //When
+            bankService.withdraw(account, amountToWithdraw);
+            bankService.withdraw(account, secondAmountToWithdraw);
+
+            //Then
+            Assertions.assertEquals(20.0, bankService.getAccountBalance(account));
+
+        }
     }
+
+
 
 }
