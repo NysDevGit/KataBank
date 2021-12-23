@@ -10,8 +10,8 @@ public class Balance {
         return balance;
     }
 
-    public void add(double amountToDeposit) {
-        balance += amountToDeposit;
+    public void add(Deposit amountToDeposit) {
+        balance += amountToDeposit.getValue();
     }
 
     public void subtract(double amountToWithdraw) {
