@@ -1,12 +1,8 @@
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BankService {
-
-    public Map<Account, Deposit> transactionsHistory = new HashMap<>();
 
     public void deposit(Account account, Deposit amountToDeposit) {
         account.incrementBalance(amountToDeposit);

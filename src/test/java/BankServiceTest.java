@@ -15,10 +15,9 @@ public class BankServiceTest {
             //Given
             BankService bankService = new BankService();
             Account account = new Account(new Balance(100));
-            double amountToDeposit = 50;
 
             //When
-            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), amountToDeposit));
+            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), 50));
 
             //Then
             Assertions.assertEquals(150.0, bankService.getAccountBalance(account));
@@ -26,16 +25,14 @@ public class BankServiceTest {
         }
 
         @Test
-        public void should_add_severals_amount_to_current_account_balance() {
+        public void should_add_several_amount_to_current_account_balance() {
             //Given
             BankService bankService = new BankService();
             Account account = new Account(new Balance(20));
-            double amountToDeposit = 50;
-            double secondAmountToDeposit = 130;
 
             //When
-            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), amountToDeposit));
-            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), secondAmountToDeposit));
+            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), 50));
+            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), 130));
 
             //Then
             Assertions.assertEquals(200.0, bankService.getAccountBalance(account));
@@ -50,28 +47,25 @@ public class BankServiceTest {
             //Given
             BankService bankService = new BankService();
             Account account = new Account(new Balance(100));
-            double amountToWithdraw = 50;
             LocalDateTime dateTime = generateDate("2021-12-22 12:30");
 
             //When
-            bankService.withdraw(account, new Withdraw(dateTime, amountToWithdraw));
+            bankService.withdraw(account, new Withdraw(dateTime, 50));
 
             //Then
             Assertions.assertEquals(50.0, bankService.getAccountBalance(account));
         }
 
         @Test
-        public void should_subtract_severals_amount_to_current_account_balance() {
+        public void should_subtract_several_amount_to_current_account_balance() {
             //Given
             BankService bankService = new BankService();
             Account account = new Account(new Balance(200));
-            double amountToWithdraw = 50;
-            double secondAmountToWithdraw = 130;
-            LocalDateTime dateTime = generateDate("2021-12-22 12:30");
+            LocalDateTime dateTime = generateDate("2021-12-12 12:30");
 
             //When
-            bankService.withdraw(account, new Withdraw(dateTime, amountToWithdraw));
-            bankService.withdraw(account, new Withdraw(dateTime, secondAmountToWithdraw));
+            bankService.withdraw(account, new Withdraw(dateTime, 50));
+            bankService.withdraw(account, new Withdraw(dateTime, 130));
 
             //Then
             Assertions.assertEquals(20.0, bankService.getAccountBalance(account));
@@ -85,7 +79,7 @@ public class BankServiceTest {
         @Test
         public void should_print_one_deposit_in_history() {
             //Given
-            LocalDateTime dateTime = generateDate("2021-12-22 12:30");
+            LocalDateTime dateTime = generateDate("2021-12-22 08:30");
             double amountToDeposit = 50;
             List<Deposit> expectedTransactions = List.of(new Deposit(dateTime, amountToDeposit));
             BankService bankService = new BankService();
