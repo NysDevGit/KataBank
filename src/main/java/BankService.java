@@ -3,12 +3,10 @@ import java.util.List;
 
 public class BankService {
 
-    public void deposit(Account account, Deposit amountToDeposit) {
-        account.incrementBalance(amountToDeposit);
-    }
-
-    public void withdraw(Account account, Withdraw amountToWithdraw) {
-        account.decrementBalance(amountToWithdraw);
+    public void compute(Account account, Transaction transaction) {
+        if(Operation.DEPOSIT.equals(transaction.getType()))
+            account.deposit(transaction);
+        else account.withdraw(transaction);
     }
 
     public double getAccountBalance(Account account) {

@@ -19,14 +19,14 @@ public class Account {
                 .collect(Collectors.toList());
     }
 
-    public void incrementBalance(Deposit amountToDeposit) {
-        balance.add(amountToDeposit);
-        transactions.add(amountToDeposit);
+    public void deposit(Transaction transaction) {
+        balance.add(transaction.getValue());
+        transactions.add(transaction);
     }
 
-    public void decrementBalance(Withdraw amountToWithdraw) {
-        balance.subtract(amountToWithdraw.getValue());
-        transactions.add(amountToWithdraw);
+    public void withdraw(Transaction transaction) {
+        balance.subtract(transaction.getValue());
+        transactions.add(transaction);
     }
 
     public double getBalance() {

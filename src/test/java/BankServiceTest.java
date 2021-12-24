@@ -17,7 +17,7 @@ public class BankServiceTest {
             Account account = new Account(new Balance(100));
 
             //When
-            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), 50));
+            bankService.compute(account, new Transaction(generateDate("2021-12-22 12:30"), 50, Operation.DEPOSIT));
 
             //Then
             Assertions.assertEquals(150.0, bankService.getAccountBalance(account));
@@ -31,8 +31,8 @@ public class BankServiceTest {
             Account account = new Account(new Balance(20));
 
             //When
-            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), 50));
-            bankService.deposit(account, new Deposit(generateDate("2021-12-22 12:30"), 130));
+            bankService.compute(account, new Transaction(generateDate("2021-12-22 12:30"), 50, Operation.DEPOSIT));
+            bankService.compute(account, new Transaction(generateDate("2021-12-22 12:30"), 130, Operation.DEPOSIT));
 
             //Then
             Assertions.assertEquals(200.0, bankService.getAccountBalance(account));
@@ -50,7 +50,7 @@ public class BankServiceTest {
             LocalDateTime dateTime = generateDate("2021-12-22 12:30");
 
             //When
-            bankService.withdraw(account, new Withdraw(dateTime, 50));
+            bankService.compute(account, new Transaction(dateTime, 50, Operation.WITHDRAW));
 
             //Then
             Assertions.assertEquals(50.0, bankService.getAccountBalance(account));
@@ -64,8 +64,8 @@ public class BankServiceTest {
             LocalDateTime dateTime = generateDate("2021-12-12 12:30");
 
             //When
-            bankService.withdraw(account, new Withdraw(dateTime, 50));
-            bankService.withdraw(account, new Withdraw(dateTime, 130));
+            bankService.compute(account, new Transaction(dateTime, 50, Operation.WITHDRAW));
+            bankService.compute(account, new Transaction(dateTime, 130, Operation.WITHDRAW));
 
             //Then
             Assertions.assertEquals(20.0, bankService.getAccountBalance(account));
@@ -81,12 +81,12 @@ public class BankServiceTest {
             //Given
             LocalDateTime dateTime = generateDate("2021-12-22 08:30");
             double amountToDeposit = 50;
-            List<Deposit> expectedTransactions = List.of(new Deposit(dateTime, amountToDeposit));
+            List<Transaction> expectedTransactions = List.of(new Transaction(dateTime, amountToDeposit, Operation.DEPOSIT));
             BankService bankService = new BankService();
             Account account = new Account(new Balance(0));
 
             //When
-            bankService.deposit(account, new Deposit(dateTime, amountToDeposit));
+            bankService.compute(account, new Transaction(dateTime, amountToDeposit, Operation.DEPOSIT));
 
             Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));
         }
@@ -96,12 +96,12 @@ public class BankServiceTest {
             //Given
             LocalDateTime dateTime = generateDate("2021-12-22 12:30");
             double amountToWithdraw = 50;
-            List<Withdraw> expectedTransactions = List.of(new Withdraw(dateTime, amountToWithdraw));
+            List<Transaction> expectedTransactions = List.of(new Transaction(dateTime, amountToWithdraw, Operation.DEPOSIT));
             BankService bankService = new BankService();
             Account account = new Account(new Balance(100));
 
             //When
-            bankService.withdraw(account, new Withdraw(dateTime, amountToWithdraw));
+            bankService.compute(account, new Transaction(dateTime, amountToWithdraw, Operation.DEPOSIT));
 
             //Then
             Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));
@@ -110,11 +110,11 @@ public class BankServiceTest {
         @Test
         public void should_print_several_transactions_descending_order_in_transactions_statement() {
             //Given
-            Withdraw withdraw = new Withdraw(generateDate("2021-12-06 12:30"), 200);
-            Withdraw withdraw2 = new Withdraw(generateDate("2021-12-09 12:30"), 40);
-            Withdraw withdraw3 = new Withdraw(generateDate("2021-12-22 12:30"), 30);
-            Deposit deposit = new Deposit(generateDate("2021-12-05 12:30"), 50);
-            Deposit deposit2 = new Deposit(generateDate("2021-12-10 12:30"), 200);
+            Transaction withdraw = new Transaction(generateDate("2021-12-06 12:30"), 200, Operation.WITHDRAW);
+            Transaction withdraw2 = new Transaction(generateDate("2021-12-09 12:30"), 40, Operation.WITHDRAW);
+            Transaction withdraw3 = new Transaction(generateDate("2021-12-22 12:30"), 30, Operation.WITHDRAW);
+            Transaction deposit = new Transaction(generateDate("2021-12-05 12:30"), 50, Operation.DEPOSIT);
+            Transaction deposit2 = new Transaction(generateDate("2021-12-10 12:30"), 200, Operation.DEPOSIT);
 
             List<Transaction> expectedTransactions = List.of(
                     withdraw3, deposit2, withdraw2, withdraw, deposit);
@@ -123,11 +123,11 @@ public class BankServiceTest {
             Account account = new Account(new Balance(100));
 
             //When
-            bankService.withdraw(account, withdraw3);
-            bankService.deposit(account, deposit2);
-            bankService.withdraw(account, withdraw2);
-            bankService.withdraw(account, withdraw);
-            bankService.deposit(account, deposit);
+            bankService.compute(account, withdraw3);
+            bankService.compute(account, deposit2);
+            bankService.compute(account, withdraw2);
+            bankService.compute(account, withdraw);
+            bankService.compute(account, deposit);
 
             //Then
             Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));

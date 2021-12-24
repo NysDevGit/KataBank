@@ -1,13 +1,15 @@
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public abstract class Transaction {
+public class Transaction {
     private final LocalDateTime dateTime;
     private final double value;
+    private final Operation type;
 
-    public Transaction(LocalDateTime dateTime, double value) {
+    public Transaction(LocalDateTime dateTime, double value, Operation type) {
         this.dateTime = dateTime;
         this.value = value;
+        this.type = type;
     }
 
     public double getValue() {
@@ -16,6 +18,10 @@ public abstract class Transaction {
 
     public LocalDateTime getDateTime() {
         return dateTime;
+    }
+
+    public Operation getType() {
+        return type;
     }
 
     @Override
