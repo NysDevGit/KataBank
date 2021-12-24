@@ -74,10 +74,10 @@ public class BankServiceTest {
     }
 
     @Nested
-    class TransactionHistoryTest {
+    class TransactionsTest {
 
         @Test
-        public void should_print_one_deposit_in_history() {
+        public void should_print_one_deposit_in_transactions_statement() {
             //Given
             LocalDateTime dateTime = generateDate("2021-12-22 08:30");
             double amountToDeposit = 50;
@@ -88,11 +88,11 @@ public class BankServiceTest {
             //When
             bankService.deposit(account, new Deposit(dateTime, amountToDeposit));
 
-            Assertions.assertEquals(expectedTransactions, bankService.printTransactionsHistory(account));
+            Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));
         }
 
         @Test
-        public void should_print_one_withdraw_in_history() {
+        public void should_print_one_withdraw_in_transactions_statement() {
             //Given
             LocalDateTime dateTime = generateDate("2021-12-22 12:30");
             double amountToWithdraw = 50;
@@ -104,11 +104,11 @@ public class BankServiceTest {
             bankService.withdraw(account, new Withdraw(dateTime, amountToWithdraw));
 
             //Then
-            Assertions.assertEquals(expectedTransactions, bankService.printTransactionsHistory(account));
+            Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));
         }
 
         @Test
-        public void should_print_several_transactions_descending_order_in_history() {
+        public void should_print_several_transactions_descending_order_in_transactions_statement() {
             //Given
             Withdraw withdraw = new Withdraw(generateDate("2021-12-06 12:30"), 200);
             Withdraw withdraw2 = new Withdraw(generateDate("2021-12-09 12:30"), 40);
@@ -130,7 +130,7 @@ public class BankServiceTest {
             bankService.deposit(account, deposit);
 
             //Then
-            Assertions.assertEquals(expectedTransactions, bankService.printTransactionsHistory(account));
+            Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));
         }
 
     }

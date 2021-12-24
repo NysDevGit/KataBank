@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Account {
 
@@ -9,6 +11,12 @@ public class Account {
 
     public Account(Balance balance) {
         this.balance = balance;
+    }
+
+    public List<Transaction> getTransactions(Comparator<Transaction> comparator) {
+        return transactions.stream()
+                .sorted(comparator)
+                .collect(Collectors.toList());
     }
 
     public void incrementBalance(Deposit amountToDeposit) {
@@ -23,10 +31,6 @@ public class Account {
 
     public double getBalance() {
         return balance.getBalance();
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactions;
     }
 
     @Override

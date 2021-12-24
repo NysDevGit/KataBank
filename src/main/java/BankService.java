@@ -1,6 +1,5 @@
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BankService {
 
@@ -16,13 +15,13 @@ public class BankService {
         return account.getBalance();
     }
 
-    public List<Transaction> printTransactionsHistory(Account account) {
-        return getTransactionHistoryDescOrdered(account);
+    public List<Transaction> printTransactions(Account account) {
+        return getTransactionsSortByDateDesc(account);
     }
 
-    private List<Transaction> getTransactionHistoryDescOrdered(Account account) {
-        return account.getTransactions().stream()
-                .sorted(Comparator.comparing(Transaction::getDateTime).reversed()
-        ).collect(Collectors.toList());
+    private List<Transaction> getTransactionsSortByDateDesc(Account account) {
+        Comparator<Transaction> comparator = Comparator.comparing(Transaction::getDateTime).reversed();
+        return account.getTransactions(comparator);
     }
+
 }
