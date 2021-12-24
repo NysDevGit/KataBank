@@ -1,28 +1,23 @@
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BankService {
 
-    public void deposit(Account account, Deposit amountToDeposit) {
-        account.incrementBalance(amountToDeposit);
-    }
-
-    public void withdraw(Account account, Withdraw amountToWithdraw) {
-        account.decrementBalance(amountToWithdraw);
+    public void execute(Account account, Transaction transaction) {
+        account.apply(transaction);
     }
 
     public double getAccountBalance(Account account) {
-        return account.getBalance();
+        return account.getCurrentBalance();
     }
 
-    public List<Transaction> printTransactionsHistory(Account account) {
-        return getTransactionHistoryDescOrdered(account);
+    public List<Transaction> printTransactions(Account account) {
+        return retrieveTransactionsSortedByDateDesc(account);
     }
 
-    private List<Transaction> getTransactionHistoryDescOrdered(Account account) {
-        return account.transactionsHistory.stream()
-                .sorted(Comparator.comparing(Transaction::getDateTime).reversed()
-        ).collect(Collectors.toList());
+    private List<Transaction> retrieveTransactionsSortedByDateDesc(Account account) {
+        Comparator<Transaction> comparator = Comparator.comparing(Transaction::getDateTime).reversed();
+        return account.getTransactions(comparator);
     }
+
 }

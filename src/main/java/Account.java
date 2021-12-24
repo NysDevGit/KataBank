@@ -1,28 +1,30 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Account {
 
-    public Balance balance;
-    public List<Transaction> transactionsHistory = new ArrayList<>();
+    private final List<Transaction> transactions = new ArrayList<>();
 
-    public Account(Balance balance) {
-        this.balance = balance;
+    public Account(){
     }
 
-    public void incrementBalance(Deposit amountToDeposit) {
-        balance.add(amountToDeposit);
-        transactionsHistory.add(amountToDeposit);
+    public void apply(Transaction transaction) {
+        transactions.add(transaction);
     }
 
-    public void decrementBalance(Withdraw amountToWithdraw) {
-        balance.subtract(amountToWithdraw.getValue());
-        transactionsHistory.add(amountToWithdraw);
+    public double getCurrentBalance() {
+    return transactions.stream()
+                 .map(Transaction::getValue)
+                 .reduce((double) 0, Double::sum);
     }
 
-    public double getBalance() {
-        return balance.getBalance();
+    public List<Transaction> getTransactions(Comparator<Transaction> comparator) {
+        return transactions.stream()
+                .sorted(comparator)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -30,11 +32,11 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return Objects.equals(balance, account.balance);
+        return Objects.equals(transactions, account.transactions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(balance);
+        return Objects.hash(transactions);
     }
 }
