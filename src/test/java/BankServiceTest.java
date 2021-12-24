@@ -11,31 +11,31 @@ public class BankServiceTest {
     class DepositTest {
 
         @Test
-        public void should_add_amount_to_current_account_balance() {
+        public void should_return_current_balance_after_one_deposit() {
             //Given
             BankService bankService = new BankService();
-            Account account = new Account(new Balance(100));
+            Account account = new Account();
 
             //When
-            bankService.compute(account, new Transaction(generateDate("2021-12-22 12:30"), 50, Operation.DEPOSIT));
+            bankService.execute(account, new Transaction(generateDate("2021-12-22 12:30"), 50, Operation.DEPOSIT));
 
             //Then
-            Assertions.assertEquals(150.0, bankService.getAccountBalance(account));
+            Assertions.assertEquals(50.0, bankService.getAccountBalance(account));
 
         }
 
         @Test
-        public void should_add_several_amount_to_current_account_balance() {
+        public void should_return_current_balance_after_several_deposit() {
             //Given
             BankService bankService = new BankService();
-            Account account = new Account(new Balance(20));
+            Account account = new Account();
 
             //When
-            bankService.compute(account, new Transaction(generateDate("2021-12-22 12:30"), 50, Operation.DEPOSIT));
-            bankService.compute(account, new Transaction(generateDate("2021-12-22 12:30"), 130, Operation.DEPOSIT));
+            bankService.execute(account, new Transaction(generateDate("2021-12-22 12:30"), 50, Operation.DEPOSIT));
+            bankService.execute(account, new Transaction(generateDate("2021-12-22 12:30"), 130, Operation.DEPOSIT));
 
             //Then
-            Assertions.assertEquals(200.0, bankService.getAccountBalance(account));
+            Assertions.assertEquals(180.0, bankService.getAccountBalance(account));
 
         }
     }
@@ -43,32 +43,32 @@ public class BankServiceTest {
     @Nested
     class WithdrawTest {
         @Test
-        public void should_subtract_amount_to_current_account_balance() {
+        public void should_return_current_balance_after_one_withdraw() {
             //Given
             BankService bankService = new BankService();
-            Account account = new Account(new Balance(100));
+            Account account = new Account();
             LocalDateTime dateTime = generateDate("2021-12-22 12:30");
 
             //When
-            bankService.compute(account, new Transaction(dateTime, 50, Operation.WITHDRAW));
+            bankService.execute(account, new Transaction(dateTime, 50, Operation.WITHDRAW));
 
             //Then
-            Assertions.assertEquals(50.0, bankService.getAccountBalance(account));
+            Assertions.assertEquals(-50.0, bankService.getAccountBalance(account));
         }
 
         @Test
-        public void should_subtract_several_amount_to_current_account_balance() {
+        public void should_return_current_balance_after_several_withdraw() {
             //Given
             BankService bankService = new BankService();
-            Account account = new Account(new Balance(200));
+            Account account = new Account();
             LocalDateTime dateTime = generateDate("2021-12-12 12:30");
 
             //When
-            bankService.compute(account, new Transaction(dateTime, 50, Operation.WITHDRAW));
-            bankService.compute(account, new Transaction(dateTime, 130, Operation.WITHDRAW));
+            bankService.execute(account, new Transaction(dateTime, 50, Operation.WITHDRAW));
+            bankService.execute(account, new Transaction(dateTime, 130, Operation.WITHDRAW));
 
             //Then
-            Assertions.assertEquals(20.0, bankService.getAccountBalance(account));
+            Assertions.assertEquals(-180.0, bankService.getAccountBalance(account));
 
         }
     }
@@ -83,10 +83,10 @@ public class BankServiceTest {
             double amountToDeposit = 50;
             List<Transaction> expectedTransactions = List.of(new Transaction(dateTime, amountToDeposit, Operation.DEPOSIT));
             BankService bankService = new BankService();
-            Account account = new Account(new Balance(0));
+            Account account = new Account();
 
             //When
-            bankService.compute(account, new Transaction(dateTime, amountToDeposit, Operation.DEPOSIT));
+            bankService.execute(account, new Transaction(dateTime, amountToDeposit, Operation.DEPOSIT));
 
             Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));
         }
@@ -98,10 +98,10 @@ public class BankServiceTest {
             double amountToWithdraw = 50;
             List<Transaction> expectedTransactions = List.of(new Transaction(dateTime, amountToWithdraw, Operation.DEPOSIT));
             BankService bankService = new BankService();
-            Account account = new Account(new Balance(100));
+            Account account = new Account();
 
             //When
-            bankService.compute(account, new Transaction(dateTime, amountToWithdraw, Operation.DEPOSIT));
+            bankService.execute(account, new Transaction(dateTime, amountToWithdraw, Operation.DEPOSIT));
 
             //Then
             Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));
@@ -120,14 +120,14 @@ public class BankServiceTest {
                     withdraw3, deposit2, withdraw2, withdraw, deposit);
 
             BankService bankService = new BankService();
-            Account account = new Account(new Balance(100));
+            Account account = new Account();
 
             //When
-            bankService.compute(account, withdraw3);
-            bankService.compute(account, deposit2);
-            bankService.compute(account, withdraw2);
-            bankService.compute(account, withdraw);
-            bankService.compute(account, deposit);
+            bankService.execute(account, withdraw3);
+            bankService.execute(account, deposit2);
+            bankService.execute(account, withdraw2);
+            bankService.execute(account, withdraw);
+            bankService.execute(account, deposit);
 
             //Then
             Assertions.assertEquals(expectedTransactions, bankService.printTransactions(account));
@@ -139,6 +139,4 @@ public class BankServiceTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return LocalDateTime.parse(str, formatter);
     }
-
-
 }

@@ -13,15 +13,11 @@ public class Transaction {
     }
 
     public double getValue() {
-        return value;
+        return Operation.DEPOSIT.equals(type) ? value : -value;
     }
 
     public LocalDateTime getDateTime() {
         return dateTime;
-    }
-
-    public Operation getType() {
-        return type;
     }
 
     @Override
