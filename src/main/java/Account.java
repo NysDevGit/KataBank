@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Account {
 
     private final Balance balance;
-    private final List<Transaction> transactionsHistory = new ArrayList<>();
+    private final List<Transaction> transactions = new ArrayList<>();
 
     public Account(Balance balance) {
         this.balance = balance;
@@ -13,20 +13,20 @@ public class Account {
 
     public void incrementBalance(Deposit amountToDeposit) {
         balance.add(amountToDeposit);
-        transactionsHistory.add(amountToDeposit);
+        transactions.add(amountToDeposit);
     }
 
     public void decrementBalance(Withdraw amountToWithdraw) {
         balance.subtract(amountToWithdraw.getValue());
-        transactionsHistory.add(amountToWithdraw);
+        transactions.add(amountToWithdraw);
     }
 
     public double getBalance() {
         return balance.getBalance();
     }
 
-    public List<Transaction> getTransactionsHistory() {
-        return transactionsHistory;
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 
     @Override
