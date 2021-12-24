@@ -21,7 +21,7 @@ public class BankService {
     }
 
     private List<Transaction> getTransactionHistoryDescOrdered(Account account) {
-        return account.transactionsHistory.stream()
+        return account.getTransactionsHistory().stream()
                 .sorted(Comparator.comparing(Transaction::getDateTime).reversed()
         ).collect(Collectors.toList());
     }

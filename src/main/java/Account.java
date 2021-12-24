@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Account {
 
-    public Balance balance;
-    public List<Transaction> transactionsHistory = new ArrayList<>();
+    private final Balance balance;
+    private final List<Transaction> transactionsHistory = new ArrayList<>();
 
     public Account(Balance balance) {
         this.balance = balance;
@@ -23,6 +23,10 @@ public class Account {
 
     public double getBalance() {
         return balance.getBalance();
+    }
+
+    public List<Transaction> getTransactionsHistory() {
+        return transactionsHistory;
     }
 
     @Override
